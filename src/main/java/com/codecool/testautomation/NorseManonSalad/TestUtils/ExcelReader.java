@@ -11,9 +11,9 @@ import java.util.List;
 
 public class ExcelReader {
 
-    private static final String FILE_PATH = "testData/jira_test_data.xlsx";
 
-    private Sheet getSheet(String sheetName) throws IOException, InvalidFormatException {
+    private static Sheet getSheet(String sheetName) throws IOException, InvalidFormatException {
+        final String FILE_PATH = "testData/jira_test_data.xlsx";
         Workbook workbook = WorkbookFactory.create(new File(FILE_PATH));
         int numberOfSheets = workbook.getNumberOfSheets();
 
@@ -30,7 +30,7 @@ public class ExcelReader {
         return sheetToRead;
     }
 
-    public List readSheet(String sheetName) {
+    public static List readSheet(String sheetName) {
         Sheet sheet = null;
 
         try {

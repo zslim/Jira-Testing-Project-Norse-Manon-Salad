@@ -1,6 +1,5 @@
 package com.codecool.testautomation.NorseManonSalad.TestUtils;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,11 +12,6 @@ class ExcelReaderTest {
 
     ExcelReader reader;
 
-    @BeforeEach
-    void setup() {
-        reader = new ExcelReader();
-    }
-
     @Test
     void readSheet() {
         List<String[]> expectedResult = new ArrayList<>();
@@ -28,7 +22,7 @@ class ExcelReaderTest {
         expectedResult.add(secondRow);
         expectedResult.add(thirdRow);
 
-        List<String[]> actualResult = reader.readSheet("login");
+        List<String[]> actualResult = ExcelReader.readSheet("login");
 
         String[][] arrayExpected = expectedResult.toArray(new String[0][]);
         String[][] arrayActual = actualResult.toArray(new String[0][]);
