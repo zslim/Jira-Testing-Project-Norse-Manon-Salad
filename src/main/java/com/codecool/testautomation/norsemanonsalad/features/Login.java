@@ -1,6 +1,6 @@
-package com.codecool.testautomation.NorseManonSalad.features;
+package com.codecool.testautomation.norsemanonsalad.features;
 
-import com.codecool.testautomation.NorseManonSalad.testutils.Utils;
+import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

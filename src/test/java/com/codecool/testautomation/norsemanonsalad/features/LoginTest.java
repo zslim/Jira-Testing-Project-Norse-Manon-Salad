@@ -1,7 +1,7 @@
-package com.codecool.testautomation.NorseManonSalad.features;
+package com.codecool.testautomation.norsemanonsalad.features;
 
-import com.codecool.testautomation.NorseManonSalad.testutils.ExcelReader;
-import com.codecool.testautomation.NorseManonSalad.testutils.Utils;
+import com.codecool.testautomation.norsemanonsalad.testutils.ExcelReader;
+import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +47,7 @@ class LoginTest {
 
     @Test
     void loginSuccessful() {
-        String expectedResult = System.getenv("PROFILE_PICTURE_TEXT");
+        String expectedResult = Utils.getEnvironmentVar("PROFILE_PICTURE_TEXT");
         login.login(login.USER_NAME, login.PASSWORD);
         assertEquals(expectedResult, login.validateSuccessfulLogin());
     }

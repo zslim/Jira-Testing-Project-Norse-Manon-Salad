@@ -1,4 +1,4 @@
-package com.codecool.testautomation.NorseManonSalad.features;
+package com.codecool.testautomation.norsemanonsalad.features;
 
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;

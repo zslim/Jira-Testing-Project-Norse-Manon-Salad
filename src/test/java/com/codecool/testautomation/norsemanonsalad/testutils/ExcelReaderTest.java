@@ -1,4 +1,4 @@
-package com.codecool.testautomation.NorseManonSalad.testutils;
+package com.codecool.testautomation.norsemanonsalad.testutils;
 
 import org.junit.jupiter.api.Test;
 
