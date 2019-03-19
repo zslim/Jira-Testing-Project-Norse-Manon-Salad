@@ -23,7 +23,7 @@ public class Utils {
         } else if (preferredBrowser.equals("Firefox")) {
             driver = new FirefoxDriver();
         } else {
-            throw new RuntimeException("Browser not specified among environment variables");
+            throw new NotSupportedBrowserException("Browser specified in env var not supported, please choose Chrome or Firefox");
         }
 
         return driver;
