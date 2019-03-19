@@ -10,19 +10,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ExcelReaderTest {
 
-    ExcelReader reader;
-
     @Test
     void readSheet() {
         List<String[]> expectedResult = new ArrayList<>();
-        String[] firstRow = {"user10", "CCPass123", "User profile for User 10"};
         String[] secondRow = {"", "", "usernameerror"};
         String[] thirdRow = {"example", "Example123", "usernameerror"};
-        expectedResult.add(firstRow);
         expectedResult.add(secondRow);
         expectedResult.add(thirdRow);
 
-        List<String[]> actualResult = ExcelReader.readSheet("login");
+        List<String[]> actualResult = ExcelReader.readSheet("login_failed");
 
         String[][] arrayExpected = expectedResult.toArray(new String[0][]);
         String[][] arrayActual = actualResult.toArray(new String[0][]);
