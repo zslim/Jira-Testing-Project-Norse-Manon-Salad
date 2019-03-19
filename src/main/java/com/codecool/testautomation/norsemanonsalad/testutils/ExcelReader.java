@@ -1,4 +1,4 @@
-package com.codecool.testautomation.NorseManonSalad.TestUtils;
+package com.codecool.testautomation.NorseManonSalad.testutils;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;

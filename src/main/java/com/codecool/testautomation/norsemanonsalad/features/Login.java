@@ -1,6 +1,6 @@
 package com.codecool.testautomation.NorseManonSalad.features;
 
-import com.codecool.testautomation.NorseManonSalad.TestUtils.Utils;
+import com.codecool.testautomation.NorseManonSalad.testutils.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,8 +21,8 @@ public class Login extends Feature {
     @FindBy(id = "login")
     WebElement loginSubmitButton;
 
-    final String USER_NAME = System.getenv("USER_NAME");
-    final String PASSWORD = System.getenv("PASSWORD");
+    final String USER_NAME = Utils.getEnvironmentVar("USER_NAME");
+    final String PASSWORD = Utils.getEnvironmentVar("PASSWORD");
 
     protected Login(WebDriver driver) {
         super(driver);

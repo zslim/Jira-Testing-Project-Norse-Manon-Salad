@@ -1,7 +1,7 @@
 package com.codecool.testautomation.NorseManonSalad.features;
 
-import com.codecool.testautomation.NorseManonSalad.TestUtils.ExcelReader;
-import com.codecool.testautomation.NorseManonSalad.TestUtils.Utils;
+import com.codecool.testautomation.NorseManonSalad.testutils.ExcelReader;
+import com.codecool.testautomation.NorseManonSalad.testutils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
