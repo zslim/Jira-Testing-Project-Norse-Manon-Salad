@@ -36,6 +36,19 @@ public abstract class Feature {
             attempts++;
         }
     }
+
+    protected void waitUntilElementClickable(WebElement webElement) {
+        int attempts = 0;
+        while (attempts < 2) {
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(webElement));
+                break;
+            } catch (StaleElementReferenceException e) {
+                System.out.println(e.getMessage());
+            }
+            attempts++;
+        }
+    }
 }
 
 
