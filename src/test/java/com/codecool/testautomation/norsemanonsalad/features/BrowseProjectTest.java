@@ -2,11 +2,10 @@ package com.codecool.testautomation.norsemanonsalad.features;
 
 import com.codecool.testautomation.norsemanonsalad.testutils.ExcelReader;
 import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +31,7 @@ class BrowseProjectTest {
         browseProject.closeDriver();
     }
 
+    @Disabled
     @Test
     void navigateToProjectsDirectly() {
         browseProject.navigateToProjectsDirectly();
@@ -39,10 +39,24 @@ class BrowseProjectTest {
         assertTrue(isProjectHeaderPresent);
     }
 
+    @Disabled
     @Test
     void navigateToProjectsUsingMenu() {
         browseProject.navigateToProjectsUsingMenu();
         boolean isProjectHeaderPresent = browseProject.validateNavigateToProjects();
         assertTrue(isProjectHeaderPresent);
+    }
+
+    @Test
+    void checkProjectIsPresent() {
+        List<Boolean> actualResults = new ArrayList<>();
+        browseProject.navigateToProjectsDirectly();
+        for (String[] row :
+                testData) {
+            browseProject.searchProject(row[0]);
+            actualResults.add(browseProject.validateStaticProjectsPresent(row[1]));
+            browseProject.emptySearchField();
+        }
+        assertTrue(!actualResults.contains(false));
     }
 }
