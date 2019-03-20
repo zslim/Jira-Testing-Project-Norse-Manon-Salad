@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BrowseProjectTest {
 
     private static List<String[]> testData;
-    private Login logger;
+    private BrowseProject browseProject;
 
     @BeforeAll
     static void init() {
@@ -24,19 +24,25 @@ class BrowseProjectTest {
 
     @BeforeEach
     void setUp() {
-        logger = new Login(Utils.createDriver());
+        browseProject = new BrowseProject(Utils.createDriver());
     }
 
     @AfterEach
     void tearDown() {
-        logger.closeDriver();
+        browseProject.closeDriver();
     }
 
     @Test
     void navigateToProjectsDirectly() {
+        browseProject.navigateToProjectsDirectly();
+        boolean isProjectHeaderPresent = browseProject.validateNavigateToProjects();
+        assertTrue(isProjectHeaderPresent);
     }
 
     @Test
     void navigateToProjectsUsingMenu() {
+        browseProject.navigateToProjectsUsingMenu();
+        boolean isProjectHeaderPresent = browseProject.validateNavigateToProjects();
+        assertTrue(isProjectHeaderPresent);
     }
 }
