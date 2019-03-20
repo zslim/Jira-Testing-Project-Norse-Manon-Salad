@@ -1,6 +1,5 @@
 package com.codecool.testautomation.norsemanonsalad.features;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,6 +9,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CreateIssue extends Feature {
+
+    @FindBy(id = "create_link")
+    WebElement createButton;
 
     @FindBy(id = "create-issue-submit")
     WebElement submitIssueButton;
@@ -29,9 +31,25 @@ public class CreateIssue extends Feature {
     @FindBy(id = "issuetype-field")
     WebElement issueTypeField;
 
+    @FindBy(xpath = "//a[@class='issue-created-key issue-link']")
+    WebElement conformationLink;
+
+    @FindBy(id = "aui-flag-container")
+    WebElement conformationContainer;
+
     public CreateIssue(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
+    }
+
+    void clickCreateButton() {
+        createButton.click();
+
+        waitUntilElementLoaded(submitIssueButton);
+    }
+
+    void clickCancelButton() {
+        cancelButton.click();
     }
 
     void selectFromDropdown(WebElement element, String select) {
@@ -65,13 +83,17 @@ public class CreateIssue extends Feature {
         submitNewIssue();
     }
 
+    void cancelIssueCreation(String projectName, String issueName, String summary) {
+        selectFromDropdown(projectField, projectName);
+        selectFromDropdown(issueTypeField, issueName);
+        fillInSummaryField(summary);
+        clickCancelButton();
+    }
+
     boolean validateSuccessfulIssueCreation(String issueName) {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("aui-flag-container")));
+        waitUntilElementLoaded(conformationContainer);
 
-        WebElement conformation = driver.findElement(By.xpath("//a[@class='issue-created-key issue-link']"));
-
-        if (conformation.getText().contains(issueName)) {
+        if (conformationLink.getText().contains(issueName)) {
             return true;
         } else {
             return false;
