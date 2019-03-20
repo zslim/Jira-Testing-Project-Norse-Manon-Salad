@@ -37,29 +37,29 @@ public abstract class Feature {
     }
 
     protected boolean isElementAttributeContains(WebElement webElement, String attribute, String value) {
-        int attempts = 0;
-        while (attempts < 2) {
+        int attempt = 0;
+        while (attempt < MAX_ATTEMPT) {
             try {
                 wait.until(ExpectedConditions.attributeContains(webElement, attribute, value));
                 return true;
             } catch (NoSuchElementException | StaleElementReferenceException e) {
                 System.out.println(e.getMessage());
             }
-            attempts++;
+            attempt++;
         }
         return false;
     }
 
     protected boolean isElementPresent(WebElement webElement) {
-        int attempts = 0;
-        while (attempts < 2) {
+        int attempt = 0;
+        while (attempt < MAX_ATTEMPT) {
             try {
                 wait.until(ExpectedConditions.visibilityOf(webElement));
                 return true;
             } catch (NoSuchElementException | StaleElementReferenceException e) {
                 System.out.println(e.getMessage());
             }
-            attempts++;
+            attempt++;
         }
         return false;
     }
