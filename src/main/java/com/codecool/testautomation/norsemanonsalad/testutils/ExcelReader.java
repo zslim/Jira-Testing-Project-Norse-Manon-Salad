@@ -12,8 +12,9 @@ import java.util.List;
 public class ExcelReader {
 
 
+    private static final String FILE_PATH = "testData/jira_test_data.xlsx";
+
     private static Sheet getSheet(String sheetName) throws IOException, InvalidFormatException {
-        final String FILE_PATH = "testData/jira_test_data.xlsx";
         Workbook workbook = WorkbookFactory.create(new File(FILE_PATH));
         int numberOfSheets = workbook.getNumberOfSheets();
 
@@ -31,14 +32,13 @@ public class ExcelReader {
     }
 
     public static List<String[]> readSheet(String sheetName) {
-        Sheet sheet = null;
+        Sheet sheet;
 
         try {
             sheet = getSheet(sheetName);
-        } catch (IOException e) {
+        } catch (IOException | InvalidFormatException e) {
             e.printStackTrace();
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
+            throw new SheetNotFoundException("Could not find sheet " + sheetName + " in workbook " + FILE_PATH);
         }
 
         Iterator<Row> rowIterator = sheet.rowIterator();
