@@ -25,14 +25,39 @@ public class CreateIssue extends Feature {
     @FindBy(id = "issuetype-field")
     WebElement issueTypeField;
 
-    @FindBy(id = "all-projects")
-    WebElement allProjectsList;
-
-    @FindBy(xpath = "//div[@id='issuetype-suggestions']/div/ul")
-    WebElement issueTypesList;
-
     public CreateIssue(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
+    }
+
+    void selectProject(String projectName) {
+        projectField.sendKeys(projectName);
+
+        if (projectField.getAttribute("aria-activedescendant").equals("null")) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    void selectIssueType(String issueName) {
+        issueTypeField.sendKeys(issueName);
+
+        if (issueTypeField.getAttribute("aria-activedescendant").equals("null")) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    void fillInSummaryField(String summaryMessage) {
+        summaryField.sendKeys(summaryMessage);
+    }
+
+    void submitNewIssue() {
+        submitIssueButton.click();
+    }
+
+    void createNewIssue(String projectName, String issueName, String summary) {
+        selectProject(projectName);
+        selectIssueType(issueName);
+        fillInSummaryField(summary);
+        submitNewIssue();
     }
 }
