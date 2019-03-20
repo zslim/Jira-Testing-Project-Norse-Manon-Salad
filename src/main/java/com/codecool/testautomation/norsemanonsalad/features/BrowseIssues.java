@@ -1,10 +1,13 @@
 package com.codecool.testautomation.norsemanonsalad.features;
 
-import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BrowseIssues extends Feature {
 
@@ -16,6 +19,10 @@ public class BrowseIssues extends Feature {
 
     @FindBy(xpath = "//*[@id=\"search-header-view\"]/div/h1")
     WebElement searchTitle;
+
+    @FindBy(xpath = "(//SPAN[text()='1 of 233'])[1]")
+    WebElement numberOfIssues;
+
 
     Login login;
 
@@ -32,6 +39,15 @@ public class BrowseIssues extends Feature {
         searchForIssues.click();
         waitUntilElementLoaded(searchTitle);
     }
+
+
+    public int getNumOfIssues(){
+        String text = numberOfIssues.getText();
+        String[] split = text.split(" ");
+        int max = Integer.parseInt(split[2]);
+        return max;
+    }
+
 
     String validateIssuesDisplayed(){
         return searchTitle.getText();
