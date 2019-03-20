@@ -16,7 +16,10 @@ public class BrowseProject extends Feature {
     @FindBy(xpath = "//*[@id=\"content\"]/header/div//h1")
     WebElement browseProjectHeader;
 
-    @FindBy(xpath = "//*[@id=\"projects\"]/div/table/tbody//a[contains(text(),\"COALA\")]")
+    @FindBy(id = "project-filter-text")
+    WebElement search;
+
+    @FindBy(partialLinkText = "COALA")
     WebElement coalaProject;
 
     @FindBy(partialLinkText = "JETI")
@@ -49,19 +52,27 @@ public class BrowseProject extends Feature {
         waitUntilElementLoaded(browseProjectHeader);
     }
 
+    void searchProject(String projectName){
+        search.sendKeys(projectName);
+    }
+
+    void emptySearchField(){
+        search.clear();
+    }
+
     boolean validateNavigateToProjects(){
         return isElementPresent(browseProjectHeader);
     }
 
-    boolean validateStaticProjectsPresent(String projectTitle) {
-        String attribute = "original-title";
-        switch (projectTitle) {
+    boolean validateTestProjectsPresent(String expectedTitle) {
+        String attribute = "title";
+        switch (expectedTitle) {
             case "TOUCAN projekt":
-                return isElementAttributeContains(toucanProject, attribute, projectTitle);
-            case "JETI project":
-                return isElementAttributeContains(jetiProject, attribute, projectTitle);
-            case "COALA project":
-                return isElementAttributeContains(coalaProject, attribute, projectTitle);
+                return isElementAttributeContains(toucanProject, attribute, expectedTitle);
+            case "JETI Project":
+                return isElementAttributeContains(jetiProject, attribute, expectedTitle);
+            case "COALA Project":
+                return isElementAttributeContains(coalaProject, attribute, expectedTitle);
             default:
                 return false;
         }

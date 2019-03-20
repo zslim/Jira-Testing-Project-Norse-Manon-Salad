@@ -5,7 +5,6 @@ import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,7 +53,7 @@ class BrowseProjectTest {
         for (String[] row :
                 testData) {
             browseProject.searchProject(row[0]);
-            actualResults.add(browseProject.validateStaticProjectsPresent(row[1]));
+            actualResults.add(browseProject.validateTestProjectsPresent(row[1]));
             browseProject.emptySearchField();
         }
         assertTrue(!actualResults.contains(false));
