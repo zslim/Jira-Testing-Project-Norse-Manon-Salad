@@ -37,6 +37,12 @@ public class CreateIssue extends Feature {
     @FindBy(id = "aui-flag-container")
     WebElement conformationContainer;
 
+    @FindBy(xpath = "//div[@class='aui-message-context']//a")
+    WebElement conformationWithCheckbox;
+
+    @FindBy(xpath = "//div[@class='error']")
+    WebElement errorMessage;
+
     public CreateIssue(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
