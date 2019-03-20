@@ -7,7 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public abstract class Feature {
     protected WebDriver driver;
     protected WebDriverWait wait;
-    private static final int TIMEOUT_FOR_LOADING = 10;
+    private static final int TIMEOUT_FOR_LOADING = Integer.parseInt(System.getenv("TIMEOUT_FOR_LOADING"));
+    private static final int MAX_ATTEMPT = Integer.parseInt(System.getenv("MAX_ATTEMPT"));
 
     protected Feature(WebDriver driver) {
         this.driver = driver;
@@ -23,15 +24,15 @@ public abstract class Feature {
     }
 
     protected void waitUntilElementLoaded(WebElement webElement) {
-        int attempts = 0;
-        while (attempts < 2) {
+        int attempt = 0;
+        while (attempt < MAX_ATTEMPT) {
             try {
                 wait.until(ExpectedConditions.visibilityOf(webElement));
                 break;
             } catch (StaleElementReferenceException e) {
                 System.out.println(e.getMessage());
             }
-            attempts++;
+            attempt++;
         }
     }
 
