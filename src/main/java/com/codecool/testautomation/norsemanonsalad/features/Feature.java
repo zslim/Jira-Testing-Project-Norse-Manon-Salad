@@ -1,8 +1,6 @@
 package com.codecool.testautomation.norsemanonsalad.features;
 
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -35,6 +33,20 @@ public abstract class Feature {
             }
             attempts++;
         }
+    }
+
+    protected boolean isElementAttributeContains(WebElement webElement, String attribute, String value) {
+        int attempts = 0;
+        while (attempts < 2) {
+            try {
+                wait.until(ExpectedConditions.attributeContains(webElement, attribute, value));
+                return true;
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
+                System.out.println(e.getMessage());
+            }
+            attempts++;
+        }
+        return false;
     }
 }
 
