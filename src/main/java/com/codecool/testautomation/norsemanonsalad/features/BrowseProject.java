@@ -35,7 +35,8 @@ public class BrowseProject extends Feature {
 
     void navigateToProjectsDirectly() {
         login.loginSuccessful();
-        waitUntilElementLoaded(projectDropdownMenu);
+        waitUntilElementLoaded(projectDropdownMenu); // Waiting for the dropdown makes sure that login is finished by
+                                                        // the time we navigate to the project listing page
         driver.get("https://jira.codecool.codecanvas.hu/secure/BrowseProjects.jspa");
     }
 
@@ -48,8 +49,8 @@ public class BrowseProject extends Feature {
         waitUntilElementLoaded(browseProjectHeader);
     }
 
-    boolean validateDirectlyToProjects(){
-
+    boolean validateNavigateToProjects(){
+        return isElementPresent(browseProjectHeader);
     }
 
     boolean validateStaticProjectsPresent(String projectTitle) {
