@@ -30,7 +30,7 @@ public class ExcelReader {
         return sheetToRead;
     }
 
-    public static List readSheet(String sheetName) {
+    public static List<String[]> readSheet(String sheetName) {
         Sheet sheet = null;
 
         try {
