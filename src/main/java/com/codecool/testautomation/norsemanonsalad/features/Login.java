@@ -40,6 +40,7 @@ public class Login extends Feature {
 
     void loginSuccessful() {
         login(USER_NAME, PASSWORD);
+        waitUntilElementLoaded(userProfilePicture);
     }
 
     String validateSuccessfulLogin() {
