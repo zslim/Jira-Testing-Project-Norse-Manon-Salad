@@ -35,9 +35,6 @@ public class CreateIssue extends Feature {
     @FindBy(id = "issuetype-field")
     WebElement issueTypeField;
 
-    @FindBy(xpath = "//a[@class='issue-created-key issue-link']")
-    WebElement conformationLink;
-
     @FindBy(id = "aui-flag-container")
     WebElement conformationContainer;
 
@@ -91,13 +88,6 @@ public class CreateIssue extends Feature {
         submitNewIssue();
     }
 
-    void cancelIssueCreation(String projectName, String issueName, String summary) {
-        selectFromDropdown(projectField, projectName);
-        selectFromDropdown(issueTypeField, issueName);
-        fillInSummaryField(summary);
-        clickCancelButton();
-    }
-
     List<String> getProjectTypes(String projectName, List<String> requiredTypes) {
         List<String> actualResults = new ArrayList<>();
 
@@ -119,7 +109,7 @@ public class CreateIssue extends Feature {
         return actualResults;
     }
 
-    boolean validateSuccessfulIssueCreation(String issueName) {
+    boolean validateSuccessfulIssueCreation() {
         try {
             waitUntilElementLoaded(conformationContainer);
 
