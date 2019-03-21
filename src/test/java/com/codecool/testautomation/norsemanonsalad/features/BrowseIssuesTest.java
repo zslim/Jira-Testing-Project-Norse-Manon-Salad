@@ -37,18 +37,28 @@ public class BrowseIssuesTest {
         login.closeDriver();
     }
 
-    @Disabled
+
     @Test
-    void displayedIssues(){
+    void testIssuesDisplayed(){
         String expectedTitle = "Search";
         browseIssues.displayAllIssues();
         assertEquals(expectedTitle,browseIssues.validateIssuesDisplayed());
     }
+
 
     @Test
     void testIfAllProjectsHasAtLeastThreeIssues(){
         int minimalNumOfIssuesRequired = 3;
         boolean minimalNumOfIssuesExist = browseIssues.getNumOfIssuesPerProject(testData, minimalNumOfIssuesRequired);
         assertTrue(minimalNumOfIssuesExist);
+    }
+
+
+    @Test
+    void testIfAllIssueDetailsAppear(){
+        int numOfDetails = 5;
+        browseIssues.displayAllIssues();
+        int actualDetails = (browseIssues.getDetailesOfIssue("TOUCAN")).size();
+        assertEquals(numOfDetails, actualDetails);
     }
 }
