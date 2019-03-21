@@ -144,4 +144,14 @@ public class CreateIssue extends Feature {
             return false;
         }
     }
+
+    boolean validateEmptySummaryError() {
+        waitUntilElementLoaded(errorMessage);
+
+        if (errorMessage.getAttribute("data-field").equals("summary")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
