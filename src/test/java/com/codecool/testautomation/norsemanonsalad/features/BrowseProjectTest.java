@@ -45,7 +45,7 @@ class BrowseProjectTest {
         boolean isProjectHeaderPresent = browseProject.validateNavigateToProjects();
         assertTrue(isProjectHeaderPresent);
     }
-
+    @Disabled
     @Test
     void checkProjectIsPresent() {
         List<Boolean> actualResults = new ArrayList<>();
@@ -55,6 +55,17 @@ class BrowseProjectTest {
             browseProject.searchProject(row[0]);
             actualResults.add(browseProject.validateTestProjectsPresent(row[1]));
             browseProject.emptySearchField();
+        }
+        assertTrue(!actualResults.contains(false));
+    }
+
+    @Test
+    void categoryFilter(){
+        List<Boolean> actualResults = new ArrayList<>();
+        browseProject.navigateToProjectsDirectly();
+        for (String[] row :
+                testData) {
+            actualResults.add(browseProject.validateCategoryFilter(row[0]));
         }
         assertTrue(!actualResults.contains(false));
     }
