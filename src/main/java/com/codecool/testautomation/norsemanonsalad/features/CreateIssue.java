@@ -10,6 +10,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreateIssue extends Feature {
 
     @FindBy(id = "create_link")
@@ -96,6 +99,27 @@ public class CreateIssue extends Feature {
         selectFromDropdown(issueTypeField, issueName);
         fillInSummaryField(summary);
         clickCancelButton();
+    }
+
+    List<String> getProjectTypes(String projectName, List<String> requiredTypes) {
+        List<String> actualResults = new ArrayList<>();
+
+        selectFromDropdown(projectField, projectName);
+
+        WebDriverWait wait = new WebDriverWait(driver,10);
+
+        for (String type:
+             requiredTypes) {
+            wait.until(ExpectedConditions.elementToBeClickable(issueTypeField));
+
+            issueTypeField.sendKeys(type);
+
+            if (!issueTypeField.getAttribute("aria-activedescendant").equals("null")) {
+                issueTypeField.sendKeys(Keys.ENTER);
+                actualResults.add(type);
+            }
+        }
+        return actualResults;
     }
 
     //Delete issue after test
