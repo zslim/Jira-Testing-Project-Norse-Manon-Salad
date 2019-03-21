@@ -1,22 +1,20 @@
 package com.codecool.testautomation.norsemanonsalad.features;
 
-import com.codecool.testautomation.norsemanonsalad.testutils.ExcelReader;
 import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
 import org.junit.jupiter.api.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BrowseProjectTest {
 
-    private static List<String[]> testData;
     private BrowseProject browseProject;
+    private static final String PROJECTS_DATA = "/browse_project_projects.csv";
+    private static final String CATEGORY_DATA = "/browse_categories.csv";
 
     @BeforeAll
     static void init() {
-        testData = ExcelReader.readSheet("browse_project");
         Utils.setDriverPath();
     }
 
@@ -30,7 +28,6 @@ class BrowseProjectTest {
         browseProject.closeDriver();
     }
 
-    @Disabled
     @Test
     void navigateToProjectsDirectly() {
         browseProject.navigateToProjectsDirectly();
@@ -38,35 +35,27 @@ class BrowseProjectTest {
         assertTrue(isProjectHeaderPresent);
     }
 
-    @Disabled
     @Test
     void navigateToProjectsUsingMenu() {
         browseProject.navigateToProjectsUsingMenu();
         boolean isProjectHeaderPresent = browseProject.validateNavigateToProjects();
         assertTrue(isProjectHeaderPresent);
     }
-    @Disabled
-    @Test
-    void checkProjectIsPresent() {
-        List<Boolean> actualResults = new ArrayList<>();
+
+    @ParameterizedTest
+    @CsvFileSource(resources = PROJECTS_DATA, numLinesToSkip = 1)
+    void checkProjectIsPresent(String projectName, String exceptedTitle) {
         browseProject.navigateToProjectsDirectly();
-        for (String[] row :
-                testData) {
-            browseProject.searchProject(row[0]);
-            actualResults.add(browseProject.validateTestProjectsPresent(row[1]));
-            browseProject.emptySearchField();
-        }
-        assertTrue(!actualResults.contains(false));
+        browseProject.emptySearchField();
+        browseProject.searchProject(projectName);
+        assertTrue(browseProject.validateTestProjectsPresent(exceptedTitle));
     }
 
-    @Test
-    void categoryFilter(){
-        List<Boolean> actualResults = new ArrayList<>();
+    @ParameterizedTest
+    @CsvFileSource(resources = CATEGORY_DATA, numLinesToSkip = 1)
+    void categoryFilter(String category, int numOfProjects) {
         browseProject.navigateToProjectsDirectly();
-        for (String[] row :
-                testData) {
-            actualResults.add(browseProject.validateCategoryFilter(row[0]));
-        }
-        assertTrue(!actualResults.contains(false));
+        browseProject.chooseOneCategory(category);
+        assertTrue(browseProject.validateCategoryFilter(numOfProjects));
     }
 }

@@ -44,6 +44,9 @@ public class BrowseProject extends Feature {
     @FindBy(id = "recent-panel-tab-lnk")
     WebElement recentProjects;
 
+    @FindBy(xpath = "//*[@id=\"filter-projects\"]/div/h2")
+    WebElement categoryName;
+
     private Login login;
 
     protected BrowseProject(WebDriver driver) {
@@ -94,42 +97,29 @@ public class BrowseProject extends Feature {
         }
     }
 
-    List<WebElement> chooseOneCategory(WebElement webElement, String partialText) {
-        webElement.click();
-        List<WebElement> projectCategories = getProjects(partialText);
-        System.out.println(projectCategories);
-        return projectCategories;
-    }
-
-    private List<WebElement> getProjects(String partialText) {
-        return driver.findElements
-                    (By.xpath("//*[@id=\"projects\"]/div/table/tbody//td[contains(text()," + partialText + ")]"));
-    }
-
-    boolean isContainText(String partialText, List<WebElement> listOfElements) {
-        List<Boolean> isContainList = new ArrayList<>();
-        for (WebElement element :
-                listOfElements) {
-            String elementText = element.getText();
-            boolean isContain = elementText.equals(partialText);
-            isContainList.add(isContain);
-        }
-        return !isContainList.contains(false);
-    }
-
-    boolean validateCategoryFilter(String partialText) {
-        switch (partialText) {
+    void chooseOneCategory(String category) {
+        switch (category){
             case "Static":
-                List<WebElement> staticElementsList = chooseOneCategory(staticProjects, partialText);
-                return isContainText(partialText, staticElementsList);
+                staticProjects.click();
+                break;
             case "No category":
-                List<WebElement> noCatElementsList = chooseOneCategory(staticProjects, partialText);
-                return isContainText(partialText, noCatElementsList);
+                projectsWithNoCategory.click();
+                break;
             case "All categories":
-                return true;
-            default:
-                return false;
+                allProjects.click();
+                break;
+            case "Recent projects":
+                recentProjects.click();
+                break;
         }
+    }
+
+    boolean validateCategoryFilter(int numOfProjects) {
+        List<WebElement> elementsList = driver.findElements(By.xpath("//*[@id=\"projects\"]/div/table/tbody/tr"));
+        int projectsShown = elementsList.size();
+        boolean isEqual = projectsShown == numOfProjects;
+        //elementsList.clear();
+        return isEqual;
     }
 
 
