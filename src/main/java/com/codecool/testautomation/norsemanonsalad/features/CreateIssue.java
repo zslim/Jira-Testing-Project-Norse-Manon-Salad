@@ -45,6 +45,27 @@ public class CreateIssue extends Feature {
     @FindBy(xpath = "//div[@class='error']")
     WebElement errorMessage;
 
+    @FindBy(id = "find_link")
+    WebElement issues;
+
+    @FindBy(id = "find_link-content")
+    WebElement searchForIssuesContainer;
+
+    @FindBy(id = "issues_new_search_link_lnk")
+    WebElement searchForIssuesLink;
+
+    @FindBy(id = "searcher-query")
+    WebElement searchField;
+
+    @FindBy(xpath = "//*[@id='delete-issue']/a")
+    WebElement deleteLink;
+
+    @FindBy(id = "delete-issue-submit")
+    WebElement deleteButtonOnPopup;
+
+    @FindBy(id = "opsbar-operations_more")
+    WebElement moreOperationsButton;
+
     public CreateIssue(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -132,39 +153,43 @@ public class CreateIssue extends Feature {
         }
     }
 
-    //Delete issue after test - should be in a different class
-    void deleteIssue(String issueName) {
+    void navigateToSearchForIssues() {
         driver.navigate().to("https://jira.codecool.codecanvas.hu/secure/Dashboard.jspa");
 
-        driver.findElement(By.id("find_link")).click();
+        issues.click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("find_link-content")));
+        wait.until(ExpectedConditions.visibilityOf(searchForIssuesContainer));
 
-        driver.findElement(By.id("issues_new_search_link_lnk")).click();
+        searchForIssuesLink.click();
+    }
 
-        WebElement searchField = driver.findElement(By.id("searcher-query"));
-
+    void fillInSearchField(String issueName) {
         wait.until(ExpectedConditions.elementToBeClickable(searchField));
 
         searchField.sendKeys(issueName);
         searchField.sendKeys(Keys.ENTER);
+    }
 
-        wait.until(ExpectedConditions.textToBe(By.id("project-name-val"), "Private Project 3"));
+    void deleteIssue(String projectName, String issueName) {
+        navigateToSearchForIssues();
 
-        driver.findElement(By.id("opsbar-operations_more")).click();
+        fillInSearchField(issueName);
 
-        WebElement delete = driver.findElement(By.xpath("//*[@id='delete-issue']/a"));
+        wait.until(ExpectedConditions.textToBe(By.id("project-name-val"), projectName));
+
+        moreOperationsButton.click();
+
         Actions action = new Actions(driver);
 
-        action.moveToElement(delete);
+        action.moveToElement(deleteLink);
         action.perform();
 
-        wait.until(ExpectedConditions.visibilityOf(delete));
+        wait.until(ExpectedConditions.visibilityOf(deleteLink));
 
-        delete.click();
+        deleteLink.click();
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("delete-issue-submit")));
+        wait.until(ExpectedConditions.elementToBeClickable(deleteButtonOnPopup));
 
-        driver.findElement(By.id("delete-issue-submit")).click();
+        deleteButtonOnPopup.click();
     }
 }

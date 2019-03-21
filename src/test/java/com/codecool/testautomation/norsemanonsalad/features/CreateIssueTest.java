@@ -45,7 +45,7 @@ class CreateIssueTest {
 
         assertTrue(createIssue.validateSuccessfulIssueCreation());
 
-        createIssue.deleteIssue(summary);
+        createIssue.deleteIssue(projectName, summary);
     }
 
     @ParameterizedTest
