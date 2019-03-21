@@ -30,6 +30,7 @@ class CreateIssueTest {
         login = new Login(driver);
         createIssue = new CreateIssue(driver);
         login.loginSuccessful();
+        createIssue.clickCreateButton();
     }
 
     @AfterEach
@@ -40,8 +41,6 @@ class CreateIssueTest {
     @ParameterizedTest
     @CsvFileSource(resources = PASS_TEST_DATA, numLinesToSkip = 1)
     void testSuccessfulIssueCreation(String projectName, String issueType, String summary) {
-        createIssue.clickCreateButton();
-
         createIssue.createNewIssue(projectName, issueType, summary);
 
         assertTrue(createIssue.validateSuccessfulIssueCreation());
@@ -52,8 +51,6 @@ class CreateIssueTest {
     @ParameterizedTest
     @CsvFileSource(resources = FAIL_TEST_DATA, numLinesToSkip = 1)
     void testUnsuccessfulIssueCreationWithEmptySummary(String projectName, String issueType, String summary) {
-        createIssue.clickCreateButton();
-
         createIssue.createNewIssue(projectName, issueType, summary);
 
         assertTrue(createIssue.validateEmptySummaryError());
@@ -62,8 +59,6 @@ class CreateIssueTest {
     @ParameterizedTest
     @CsvFileSource(resources = PROJECT_TYPES_TEST_DATA, numLinesToSkip = 1)
     void testProjectHasAllRequiredTypes(String projectName) {
-        createIssue.clickCreateButton();
-
         List<String> expectedTypes = createIssue.getRequiredTypes();
 
         String actualResult = createIssue.getProjectTypes(projectName, expectedTypes);
