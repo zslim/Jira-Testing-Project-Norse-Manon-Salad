@@ -89,7 +89,17 @@ public class CreateIssue extends Feature {
         submitNewIssue();
     }
 
-    List<String> getProjectTypes(String projectName, List<String> requiredTypes) {
+    List<String> getRequiredTypes() {
+        List<String> requiredTypes = new ArrayList<>();
+        requiredTypes.add("Story");
+        requiredTypes.add("Task");
+        requiredTypes.add("Bug");
+        requiredTypes.add("Sub-task");
+
+        return requiredTypes;
+    }
+
+    String getProjectTypes(String projectName, List<String> requiredTypes) {
         List<String> actualResults = new ArrayList<>();
 
         selectFromDropdown(projectField, projectName);
@@ -107,7 +117,7 @@ public class CreateIssue extends Feature {
                 issueTypeField.clear();
             }
         }
-        return actualResults;
+        return actualResults.toString();
     }
 
     boolean validateSuccessfulIssueCreation() {
