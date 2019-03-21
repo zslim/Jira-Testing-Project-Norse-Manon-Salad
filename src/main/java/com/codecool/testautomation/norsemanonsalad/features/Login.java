@@ -31,8 +31,8 @@ public class Login extends Feature {
 
     void login(String userName, String password) {
         driver.get(Utils.BASE_URL);
-        userNameField.sendKeys(userName);
-        passwordField.sendKeys(password);
+        userNameField.sendKeys(Utils.nullToEmptyString(userName));
+        passwordField.sendKeys(Utils.nullToEmptyString(password));
         passwordField.submit();
     }
 
