@@ -1,5 +1,6 @@
 package com.codecool.testautomation.norsemanonsalad.features;
 
+import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -74,7 +75,7 @@ public class CreateIssue extends Feature {
     void fillInSummaryField(String summaryMessage) {
         wait.until(ExpectedConditions.elementToBeClickable(summaryField));
 
-        summaryField.sendKeys(summaryMessage);
+        summaryField.sendKeys(Utils.nullToEmptyString(summaryMessage));
     }
 
     void submitNewIssue() {
