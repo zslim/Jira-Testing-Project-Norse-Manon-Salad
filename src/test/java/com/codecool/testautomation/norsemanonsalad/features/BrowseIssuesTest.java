@@ -37,14 +37,12 @@ public class BrowseIssuesTest {
         login.closeDriver();
     }
 
-
     @Test
     void testIssuesDisplayed(){
         String expectedTitle = "Search";
         browseIssues.displayAllIssues();
         assertEquals(expectedTitle,browseIssues.validateIssuesDisplayed());
     }
-
 
     @Test
     void testIfAllProjectsHasAtLeastThreeIssues(){
@@ -53,12 +51,19 @@ public class BrowseIssuesTest {
         assertTrue(minimalNumOfIssuesExist);
     }
 
-
     @Test
     void testIfAllIssueDetailsAppear(){
         int numOfDetails = 5;
         browseIssues.displayAllIssues();
         int actualDetails = (browseIssues.getDetailesOfIssue("TOUCAN")).size();
         assertEquals(numOfDetails, actualDetails);
+    }
+
+    @Test
+    void testPagination(){
+        browseIssues.displayAllIssues();
+        int expectedNumberOfIssues = browseIssues.getNumOfIssues();
+        int stepByStepCount = browseIssues.getNumOfIssuesByPagination();
+        assertEquals(expectedNumberOfIssues,stepByStepCount);
     }
 }

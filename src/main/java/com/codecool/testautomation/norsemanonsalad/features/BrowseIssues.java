@@ -43,6 +43,16 @@ public class BrowseIssues extends Feature {
     @FindBy(id = "type-val")
     WebElement typeOfIssue;
 
+    @FindBy(className = "issue-list")
+    WebElement issuesList;
+
+    @FindBy(xpath = "//SPAN[@class='aui-icon aui-icon-small aui-iconfont-chevron-right'][contains(text(),'Next ')]")
+    WebElement nextPageIcon;
+
+    @FindBy(xpath = "//SPAN[@class='aui-icon aui-icon-small aui-iconfont-refresh-small'][text()='Refresh results']")
+    WebElement refreshPageIcon;
+
+
     Login login;
 
     BrowseIssues(WebDriver driver) {
@@ -111,10 +121,35 @@ public class BrowseIssues extends Feature {
         for (WebElement detail : details) {
             detailsText.put(detail.findElement(By.tagName("strong")).getText(), detail.findElement(By.tagName("span")).getText());
         }
-        System.out.println(detailsText);
+        System.out.println("Details: \n" + detailsText);
         return detailsText;
     }
 
 
+    int getNumOfIssuesByPagination(){
+        waitUntilElementLoaded(issuesList);
+        int issueCounter = 0;
+        boolean nextPageClickable = true;
+
+        while (nextPageClickable){
+            waitUntilElementClickable(refreshPageIcon);
+            if (driver.findElements( By.xpath("//SPAN[@class='aui-icon aui-icon-small aui-iconfont-chevron-right'][contains(text(),'Next ')]")).size() != 0 ) {
+                waitUntilElementLoaded(issuesList);
+                List<WebElement> issuesPerPage = issuesList.findElements(By.tagName("li"));
+                int size = issuesPerPage.size();
+                issueCounter += size;
+                waitUntilElementClickable(nextPageIcon);
+                waitUntilElementClickable(refreshPageIcon);
+                nextPageIcon.click();
+            }else {
+                nextPageClickable = false;
+                List<WebElement> lis = issuesList.findElements(By.tagName("li"));
+                int size = lis.size();
+                issueCounter += size;
+            }
+        }
+        System.out.println("Issues " + issueCounter);
+        return issueCounter;
+    }
 
 }
