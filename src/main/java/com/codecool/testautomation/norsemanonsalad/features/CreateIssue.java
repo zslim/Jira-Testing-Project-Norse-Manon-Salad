@@ -68,7 +68,7 @@ public class CreateIssue extends Feature {
         if (!element.getAttribute("aria-activedescendant").equals("null")) {
             element.sendKeys(Keys.ENTER);
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(select + " cannot be found!");
         }
     }
 
