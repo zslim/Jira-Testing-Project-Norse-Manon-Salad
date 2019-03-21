@@ -5,10 +5,6 @@ import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,10 +15,12 @@ public class BrowseIssuesTest {
     BrowseIssues browseIssues;
     private ExcelReader reader;
     private static String[] testData = new String[3];
+    //private static List<String[]> testData;
 
     @BeforeAll
     static void init(){
         testData = new String[]{"TOUCAN", "JETI", "COALA"};
+        //testData = ExcelReader.readSheet("browse_issues");
         Utils.setDriverPath();
     }
 
@@ -39,6 +37,7 @@ public class BrowseIssuesTest {
         login.closeDriver();
     }
 
+    @Disabled
     @Test
     void displayedIssues(){
         String expectedTitle = "Search";
@@ -47,8 +46,9 @@ public class BrowseIssuesTest {
     }
 
     @Test
-    void testIfAllProjectsHas3Issues(){
-        Map<String, Integer> actual = browseIssues.getNumOfIssuesPerProject(testData);
-        System.out.println(Arrays.toString(actual.entrySet().toArray()));
+    void testIfAllProjectsHasAtLeastThreeIssues(){
+        int minimalNumOfIssuesRequired = 3;
+        boolean minimalNumOfIssuesExist = browseIssues.getNumOfIssuesPerProject(testData, minimalNumOfIssuesRequired);
+        assertTrue(minimalNumOfIssuesExist);
     }
 }

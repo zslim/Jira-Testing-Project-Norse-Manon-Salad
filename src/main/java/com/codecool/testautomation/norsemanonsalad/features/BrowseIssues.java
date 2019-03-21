@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,22 +64,28 @@ public class BrowseIssues extends Feature {
         return max;
     }
 
-    public Map getNumOfIssuesPerProject(String[] projects){
-
+    public boolean getNumOfIssuesPerProject(String[] projects, int minimal){
         Map<String, Integer > issuesPerProject = new HashMap<>();
         WebDriverWait wait = new WebDriverWait(driver, 10);
+        boolean minimalNumOfIssuesExist = true;
 
         for (int i = 0; i < projects.length; i++) {
             displayAllIssues();
+
             waitUntilElementClickable(projectFilter);
             projectFilter.click();
             waitUntilElementClickable(projectFilterInputField);
             projectFilterInputField.sendKeys(projects[i] + Keys.ENTER + Keys.ESCAPE);
             wait.until(ExpectedConditions.textToBePresentInElement(filteredId, projects[i]));
             issuesPerProject.put(projects[i], getNumOfIssues());
+
+            if (getNumOfIssues() < minimal) {
+                minimalNumOfIssuesExist = false;
+            }
         }
 
-        return issuesPerProject;
+        System.out.println(Arrays.toString(issuesPerProject.entrySet().toArray()));
+        return minimalNumOfIssuesExist;
     }
 
 
