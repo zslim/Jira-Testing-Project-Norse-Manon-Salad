@@ -11,7 +11,8 @@ class BrowseProjectTest {
 
     private BrowseProject browseProject;
     private static final String PROJECTS_DATA = "/browse_project_projects.csv";
-    private static final String CATEGORY_DATA = "/browse_categories.csv";
+    private static final String CATEGORY_DATA = "/browse_project_categories.csv";
+    private static final String TYPE_DATA = "/browse_project_types.csv";
 
     @BeforeAll
     static void init() {
@@ -56,6 +57,14 @@ class BrowseProjectTest {
     void categoryFilter(String category, int numOfProjects) {
         browseProject.navigateToProjectsDirectly();
         browseProject.chooseOneCategory(category);
-        assertTrue(browseProject.validateCategoryFilter(numOfProjects));
+        assertTrue(browseProject.validateFilter(numOfProjects));
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = TYPE_DATA, numLinesToSkip = 1)
+    void typeFilter(String type, int numOfProjects) {
+        browseProject.navigateToProjectsDirectly();
+        browseProject.chooseOneType(type);
+        assertTrue(browseProject.validateFilter(numOfProjects));
     }
 }

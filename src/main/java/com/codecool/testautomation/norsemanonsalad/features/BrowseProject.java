@@ -44,8 +44,14 @@ public class BrowseProject extends Feature {
     @FindBy(id = "recent-panel-tab-lnk")
     WebElement recentProjects;
 
-    @FindBy(xpath = "//*[@id=\"filter-projects\"]/div/h2")
-    WebElement categoryName;
+    @FindBy(id = "all-project-type")
+    WebElement allProjectType;
+
+    @FindBy(id = "software-project-type")
+    WebElement softwareProjectType;
+
+    @FindBy(id = "business-project-type")
+    WebElement businessProjectType;
 
     private Login login;
 
@@ -98,7 +104,7 @@ public class BrowseProject extends Feature {
     }
 
     void chooseOneCategory(String category) {
-        switch (category){
+        switch (category) {
             case "Static":
                 staticProjects.click();
                 break;
@@ -114,12 +120,25 @@ public class BrowseProject extends Feature {
         }
     }
 
-    boolean validateCategoryFilter(int numOfProjects) {
-        List<WebElement> elementsList = driver.findElements(By.xpath("//*[@id=\"projects\"]/div/table/tbody/tr"));
+    void chooseOneType(String type) {
+        switch (type) {
+            case "All project types":
+                allProjectType.click();
+                break;
+            case "Software project types":
+                softwareProjectType.click();
+                break;
+            case "Business project types":
+                businessProjectType.click();
+                break;
+        }
+    }
+
+    boolean validateFilter(int numOfProjects) {
+        String rowXpath = "//*[@id=\"projects\"]/div/table/tbody/tr";
+        List<WebElement> elementsList = driver.findElements(By.xpath(rowXpath));
         int projectsShown = elementsList.size();
-        boolean isEqual = projectsShown == numOfProjects;
-        //elementsList.clear();
-        return isEqual;
+        return projectsShown == numOfProjects;
     }
 
 
