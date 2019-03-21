@@ -1,6 +1,5 @@
 package com.codecool.testautomation.norsemanonsalad.features;
 
-import com.codecool.testautomation.norsemanonsalad.testutils.ExcelReader;
 import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +12,6 @@ public class BrowseIssuesTest {
 
     Login login;
     BrowseIssues browseIssues;
-    private ExcelReader reader;
     private static String[] testData = new String[3];
     //private static List<String[]> testData;
 
@@ -54,8 +52,9 @@ public class BrowseIssuesTest {
     @Test
     void testIfAllIssueDetailsAppear(){
         int numOfDetails = 5;
+        String project = "TOUCAN";
         browseIssues.displayAllIssues();
-        int actualDetails = (browseIssues.getDetailesOfIssue("TOUCAN")).size();
+        int actualDetails = (browseIssues.getDetailesOfIssue(project)).size();
         assertEquals(numOfDetails, actualDetails);
     }
 
