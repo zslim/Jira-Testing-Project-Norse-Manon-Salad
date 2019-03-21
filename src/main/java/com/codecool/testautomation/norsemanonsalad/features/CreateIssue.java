@@ -56,10 +56,6 @@ public class CreateIssue extends Feature {
         waitUntilElementLoaded(submitIssueButton);
     }
 
-    void clickCancelButton() {
-        cancelButton.click();
-    }
-
     void selectFromDropdown(WebElement element, String select) {
         wait.until(ExpectedConditions.elementToBeClickable(element));
 
@@ -78,15 +74,11 @@ public class CreateIssue extends Feature {
         summaryField.sendKeys(Utils.nullToEmptyString(summaryMessage));
     }
 
-    void submitNewIssue() {
-        submitIssueButton.click();
-    }
-
     void createNewIssue(String projectName, String issueName, String summary) {
         selectFromDropdown(projectField, projectName);
         selectFromDropdown(issueTypeField, issueName);
         fillInSummaryField(summary);
-        submitNewIssue();
+        submitIssueButton.click();
     }
 
     List<String> getRequiredTypes() {
