@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Objects;
+
 public class Utils {
 
     public static final String BASE_URL = "https://jira.codecool.codecanvas.hu/secure/Dashboard.jspa";
@@ -36,6 +38,10 @@ public class Utils {
         } else {
             return var;
         }
+    }
+
+    public static String nullToEmptyString(String string) {
+        return Objects.requireNonNullElse(string, "");
     }
 
 }

@@ -1,26 +1,23 @@
 package com.codecool.testautomation.norsemanonsalad.features;
 
-import com.codecool.testautomation.norsemanonsalad.testutils.ExcelReader;
 import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LoginTest {
 
-    private static List<String[]> testData;
-    private ExcelReader reader;
     private Login login;
+    private static final String FAIL_TEST_DATA_SOURCE = "/login_fail.csv";
 
     @BeforeAll
     static void init() {
-        testData = ExcelReader.readSheet("login_failed");
         Utils.setDriverPath();
     }
 
@@ -34,15 +31,12 @@ class LoginTest {
         login.closeDriver();
     }
 
-    @Test
-    void loginFail() {
-        List<Boolean> actualResults = new ArrayList<>();
-        for (String[] row :
-                testData) {
-            login.login(row[0], row[1]);
-            actualResults.add(login.validateErrorMessage(row[2]));
-        }
-        assertTrue(!actualResults.contains(false));
+    @ParameterizedTest
+    @CsvFileSource(resources = FAIL_TEST_DATA_SOURCE, numLinesToSkip = 1)
+    void loginFail(String username, String password, String errorId) {
+        login.login(username, password);
+        boolean errormessagePresent = login.validateErrorMessage(errorId);
+        assertTrue(errormessagePresent);
     }
 
     @Test
