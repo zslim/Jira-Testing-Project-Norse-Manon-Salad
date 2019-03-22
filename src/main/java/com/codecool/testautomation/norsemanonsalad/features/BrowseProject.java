@@ -93,11 +93,11 @@ public class BrowseProject extends Feature {
         String attribute = "title";
         switch (expectedTitle) {
             case "TOUCAN projekt":
-                return isElementAttributeContains(toucanProject, attribute, expectedTitle);
+                return doesContainAttribute(toucanProject, attribute, expectedTitle);
             case "JETI Project":
-                return isElementAttributeContains(jetiProject, attribute, expectedTitle);
+                return doesContainAttribute(jetiProject, attribute, expectedTitle);
             case "COALA Project":
-                return isElementAttributeContains(coalaProject, attribute, expectedTitle);
+                return doesContainAttribute(coalaProject, attribute, expectedTitle);
             default:
                 return false;
         }

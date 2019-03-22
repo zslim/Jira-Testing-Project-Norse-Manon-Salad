@@ -40,7 +40,7 @@ public abstract class Feature {
         }
     }
 
-    protected boolean isElementAttributeContains(WebElement webElement, String attribute, String value) {
+    protected boolean doesContainAttribute(WebElement webElement, String attribute, String value) {
         int attempt = 0;
         while (attempt < MAX_ATTEMPT) {
             try {
