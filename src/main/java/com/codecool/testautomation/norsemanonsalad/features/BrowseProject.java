@@ -98,7 +98,7 @@ public class BrowseProject extends Feature {
         }
     }
 
-    void chooseOneCategory(String category) {
+    void clickCategory(String category) throws BadTestDataException {
         switch (category) {
             case "Static":
                 staticProjects.click();
@@ -113,7 +113,16 @@ public class BrowseProject extends Feature {
                 recentProjects.click();
                 break;
             default:
-                System.out.println("Category " + category + " couldn't be clicked");
+                throw new BadTestDataException("Category " + category + " couldn't be clicked");
+        }
+    }
+
+    public void chooseCategory(String category) {
+        waitUntilElementLoaded(staticProjects);
+        try {
+            clickCategory(category);
+        } catch (BadTestDataException e) {
+            e.printStackTrace();
         }
     }
 
@@ -133,11 +142,11 @@ public class BrowseProject extends Feature {
         }
     }
 
-    boolean validateFilter(int numOfProjects) {
+    int validateFilter() {
         String rowXpath = "//*[@id=\"projects\"]/div/table/tbody/tr";
         List<WebElement> elementsList = driver.findElements(By.xpath(rowXpath));
         int projectsShown = elementsList.size();
-        return projectsShown == numOfProjects;
+        return projectsShown;
     }
 
 
