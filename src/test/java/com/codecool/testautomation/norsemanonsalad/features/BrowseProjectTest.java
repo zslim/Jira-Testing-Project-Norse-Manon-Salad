@@ -32,7 +32,6 @@ class BrowseProjectTest {
         browseProject.closeDriver();
     }
 
-    @Disabled
     @Test
     void navigateToProjectsDirectly() {
         browseProject.navigateToProjectsDirectly();
@@ -40,7 +39,6 @@ class BrowseProjectTest {
         assertTrue(isProjectHeaderPresent);
     }
 
-    @Disabled
     @Test
     void navigateToProjectsUsingMenu() {
         browseProject.navigateToProjectsUsingMenu();
@@ -48,7 +46,6 @@ class BrowseProjectTest {
         assertTrue(isProjectHeaderPresent);
     }
 
-    @Disabled
     @ParameterizedTest
     @CsvFileSource(resources = PROJECTS_DATA, numLinesToSkip = 1)
     void checkProjectIsPresent(String projectName, String exceptedTitle) {
@@ -65,12 +62,11 @@ class BrowseProjectTest {
         assertEquals(numOfProjects, browseProject.validateFilter());
     }
 
-    @Disabled
     @ParameterizedTest
     @CsvFileSource(resources = TYPE_DATA, numLinesToSkip = 1)
     void typeFilter(String type, int numOfProjects) {
         browseProject.navigateToProjectsDirectly();
-        browseProject.chooseOneType(type);
+        browseProject.chooseType(type);
         assertEquals(numOfProjects, browseProject.validateFilter());
     }
 }

@@ -126,7 +126,7 @@ public class BrowseProject extends Feature {
         }
     }
 
-    void chooseOneType(String type) {
+    private void clickType(String type) throws BadTestDataException {
         switch (type) {
             case "All project types":
                 allProjectType.click();
@@ -138,7 +138,16 @@ public class BrowseProject extends Feature {
                 businessProjectType.click();
                 break;
             default:
-                System.out.println("Type " + type + " clouldn't be clicked");
+                throw new BadTestDataException("Type " + type + " couldn't be clicked");
+        }
+    }
+
+    void chooseType(String type) {
+        waitUntilElementLoaded(allProjectType);
+        try {
+            clickType(type);
+        } catch (BadTestDataException e) {
+            e.printStackTrace();
         }
     }
 
