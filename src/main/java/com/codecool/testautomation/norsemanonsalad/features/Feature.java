@@ -1,6 +1,7 @@
 package com.codecool.testautomation.norsemanonsalad.features;
 
 import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -37,6 +38,34 @@ public abstract class Feature {
             }
             attempt++;
         }
+    }
+
+    protected boolean doesContainAttribute(WebElement webElement, String attribute, String value) {
+        int attempt = 0;
+        while (attempt < MAX_ATTEMPT) {
+            try {
+                wait.until(ExpectedConditions.attributeContains(webElement, attribute, value));
+                return true;
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
+                System.out.println(e.getMessage());
+            }
+            attempt++;
+        }
+        return false;
+    }
+
+    protected boolean isElementPresent(WebElement webElement) {
+        int attempt = 0;
+        while (attempt < MAX_ATTEMPT) {
+            try {
+                wait.until(ExpectedConditions.visibilityOf(webElement));
+                return true;
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
+                System.out.println(e.getMessage());
+            }
+            attempt++;
+        }
+        return false;
     }
 }
 
