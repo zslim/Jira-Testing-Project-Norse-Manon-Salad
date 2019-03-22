@@ -19,7 +19,7 @@ public class BrowseIssues extends Feature {
     @FindBy(id = "issues_new_search_link_lnk")
     WebElement searchForIssues;
 
-    @FindBy(xpath = "//*[@id=\"search-header-view\"]/div/h1")
+    @FindBy(xpath = "//*[@id='search-header-view']//h1")
     WebElement searchTitle;
 
     @FindBy(id = "fieldpid")
@@ -90,22 +90,16 @@ public class BrowseIssues extends Feature {
     }
 
 
-    boolean getNumOfIssuesPerProject(String[] projects, int minimal){
-        Map<String, Integer > issuesPerProject = new HashMap<>();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        boolean minimalNumOfIssuesExist = true;
+    boolean validateNumberOfIssues(String project, int minimal){
 
-        for (int i = 0; i < projects.length; i++) {
-            displayAllIssues();
-            searchIssueByName(projects[i]);
-            wait.until(ExpectedConditions.textToBePresentInElement(filteredId, projects[i]));
-            issuesPerProject.put(projects[i], getNumOfIssues());
-            if (getNumOfIssues() < minimal) {
-                minimalNumOfIssuesExist = false;
-            }
+        displayAllIssues();
+        searchIssueByName(project);
+        wait.until(ExpectedConditions.textToBePresentInElement(filteredId, project));
+        if (getNumOfIssues() < minimal) {
+            return false;
+        }else {
+            return true;
         }
-        System.out.println(Arrays.toString(issuesPerProject.entrySet().toArray()));
-        return minimalNumOfIssuesExist;
     }
 
 

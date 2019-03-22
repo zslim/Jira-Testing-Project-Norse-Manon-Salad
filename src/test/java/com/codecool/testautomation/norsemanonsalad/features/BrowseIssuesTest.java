@@ -2,6 +2,8 @@ package com.codecool.testautomation.norsemanonsalad.features;
 
 import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.WebDriver;
 
 
@@ -14,6 +16,7 @@ public class BrowseIssuesTest {
     BrowseIssues browseIssues;
     private static String[] testData = new String[3];
     //private static List<String[]> testData;
+    private static final String TEST_DATA_MIN_ISSUES = "/browse_issue_min_num_of_issues.csv";
 
     @BeforeAll
     static void init(){
@@ -42,10 +45,10 @@ public class BrowseIssuesTest {
         assertEquals(expectedTitle,browseIssues.validateIssuesDisplayed());
     }
 
-    @Test
-    void testIfAllProjectsHasAtLeastThreeIssues(){
-        int minimalNumOfIssuesRequired = 3;
-        boolean minimalNumOfIssuesExist = browseIssues.getNumOfIssuesPerProject(testData, minimalNumOfIssuesRequired);
+    @ParameterizedTest
+    @CsvFileSource(resources =  TEST_DATA_MIN_ISSUES, numLinesToSkip = 1)
+    void testIfAllProjectsHasAtLeastThreeIssues(String projectName, int numOfProjectsRequired){
+        boolean minimalNumOfIssuesExist = browseIssues.validateNumberOfIssues(projectName, numOfProjectsRequired);
         assertTrue(minimalNumOfIssuesExist);
     }
 
