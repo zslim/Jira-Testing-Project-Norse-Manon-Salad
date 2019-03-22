@@ -10,6 +10,8 @@ import java.util.List;
 
 public class BrowseProject extends Feature {
 
+    private static final String PROJECTS_PAGE_URL = "https://jira.codecool.codecanvas.hu/secure/BrowseProjects.jspa";
+
     @FindBy(id = "browse_link")
     WebElement projectDropdownMenu;
 
@@ -52,24 +54,16 @@ public class BrowseProject extends Feature {
     @FindBy(id = "business-project-type")
     WebElement businessProjectType;
 
-    private Login login;
-
-    protected BrowseProject(WebDriver driver) {
+    public BrowseProject(WebDriver driver) {
         super(driver);
-        this.login = new Login(driver);
         PageFactory.initElements(driver, this);
     }
 
     void navigateToProjectsDirectly() {
-        login.loginSuccessful();
-        waitUntilElementLoaded(projectDropdownMenu); // Waiting for the dropdown makes sure that login is finished by
-        // the time we navigate to the project listing page
-        driver.get("https://jira.codecool.codecanvas.hu/secure/BrowseProjects.jspa");
+        driver.get(PROJECTS_PAGE_URL);
     }
 
     void navigateToProjectsUsingMenu() {
-        login.loginSuccessful();
-        waitUntilElementLoaded(projectDropdownMenu);
         projectDropdownMenu.click();
         waitUntilElementLoaded(allProjectsOption);
         allProjectsOption.click();
@@ -80,11 +74,13 @@ public class BrowseProject extends Feature {
         return isElementPresent(browseProjectHeader);
     }
 
-    void searchProject(String projectName) {
+    void searchForProject(String projectName) {
+        emptySearchField();
         search.sendKeys(projectName);
     }
 
-    void emptySearchField() {
+    private void emptySearchField() {
+        waitUntilElementLoaded(search);
         search.clear();
     }
 

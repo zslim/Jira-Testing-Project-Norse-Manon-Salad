@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BrowseProjectTest {
 
+    private Login login;
     private BrowseProject browseProject;
     private static final String PROJECTS_DATA = "/browse_project_projects.csv";
     private static final String CATEGORY_DATA = "/browse_project_categories.csv";
@@ -21,7 +22,9 @@ class BrowseProjectTest {
 
     @BeforeEach
     void setUp() {
-        browseProject = new BrowseProject(Utils.createDriver());
+        login = new Login(Utils.createDriver());
+        browseProject = new BrowseProject(login.getDriver());
+        login.loginSuccessful();
     }
 
     @AfterEach
@@ -47,8 +50,7 @@ class BrowseProjectTest {
     @CsvFileSource(resources = PROJECTS_DATA, numLinesToSkip = 1)
     void checkProjectIsPresent(String projectName, String exceptedTitle) {
         browseProject.navigateToProjectsDirectly();
-        browseProject.emptySearchField();
-        browseProject.searchProject(projectName);
+        browseProject.searchForProject(projectName);
         assertTrue(browseProject.validateTestProjectsPresent(exceptedTitle));
     }
 
