@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BrowseProject extends Feature {
@@ -117,6 +116,8 @@ public class BrowseProject extends Feature {
             case "Recent projects":
                 recentProjects.click();
                 break;
+            default:
+                System.out.println("Category " + category + " couldn't be clicked");
         }
     }
 
@@ -131,6 +132,8 @@ public class BrowseProject extends Feature {
             case "Business project types":
                 businessProjectType.click();
                 break;
+            default:
+                System.out.println("Type " + type + " clouldn't be clicked");
         }
     }
 
