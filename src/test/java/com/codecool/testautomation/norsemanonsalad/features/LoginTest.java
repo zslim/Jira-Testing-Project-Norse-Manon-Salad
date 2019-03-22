@@ -1,10 +1,7 @@
 package com.codecool.testautomation.norsemanonsalad.features;
 
 import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -31,6 +28,7 @@ class LoginTest {
         login.closeDriver();
     }
 
+    @Tag("demo")
     @ParameterizedTest
     @CsvFileSource(resources = FAIL_TEST_DATA_SOURCE, numLinesToSkip = 1)
     void loginFail(String username, String password, String errorId) {
@@ -39,6 +37,7 @@ class LoginTest {
         assertTrue(errormessagePresent);
     }
 
+    @Tag("demo")
     @Test
     void loginSuccessful() {
         String expectedResult = Utils.getEnvironmentVar("PROFILE_PICTURE_TEXT");

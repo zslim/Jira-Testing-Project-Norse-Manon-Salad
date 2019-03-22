@@ -1,10 +1,7 @@
 package com.codecool.testautomation.norsemanonsalad.features;
 
 import com.codecool.testautomation.norsemanonsalad.testutils.Utils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -33,6 +30,7 @@ class ProjectVersionsTest {
         versions.closeDriver();
     }
 
+    @Tag("demo")
     @ParameterizedTest
     @CsvFileSource(resources = SUCCESS_DATA_SOURCE, numLinesToSkip = 1)
     void addNewVersionSuccess(String versionName, String startDate, String releaseDate, String description, String expectedResult) {
