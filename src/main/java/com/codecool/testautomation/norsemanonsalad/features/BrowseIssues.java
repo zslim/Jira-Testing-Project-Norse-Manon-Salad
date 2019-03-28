@@ -91,11 +91,10 @@ public class BrowseIssues extends Feature {
 
 
     boolean validateNumberOfIssues(String project, int minimal){
-
         displayAllIssues();
         searchIssueByName(project);
         wait.until(ExpectedConditions.textToBePresentInElement(filteredId, project));
-        if (getNumOfIssues() < minimal) {
+        if (getNumOfIssues() <= minimal) {
             return false;
         }else {
             return true;
