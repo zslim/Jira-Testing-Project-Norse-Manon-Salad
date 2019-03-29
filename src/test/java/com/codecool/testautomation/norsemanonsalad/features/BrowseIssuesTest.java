@@ -15,14 +15,12 @@ public class BrowseIssuesTest {
     Login login;
     BrowseIssues browseIssues;
     private static String[] testData = new String[3];
-    //private static List<String[]> testData;
     private static final String TEST_DATA_MIN_ISSUES = "/browse_issue_min_num_of_issues.csv";
     private static final String TEST_DATA_PROJECT_DETAILS = "/browse_issue_details_of_project.csv";
 
     @BeforeAll
     static void init(){
         testData = new String[]{"TOUCAN", "JETI", "COALA"};
-        //testData = ExcelReader.readSheet("browse_issues");
         Utils.setDriverPath();
     }
 

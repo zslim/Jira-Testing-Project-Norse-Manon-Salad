@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.*;
 
@@ -129,7 +128,6 @@ public class BrowseIssues extends Feature {
         waitUntilElementLoaded(issuesList);
         int issueCounter = 0;
         boolean nextPageClickable = true;
-
         while (nextPageClickable){
             waitUntilElementClickable(refreshPageIcon);
             if (driver.findElements( By.xpath("//SPAN[@class='aui-icon aui-icon-small aui-iconfont-chevron-right'][contains(text(),'Next ')]")).size() != 0 ) {
@@ -142,8 +140,8 @@ public class BrowseIssues extends Feature {
                 nextPageIcon.click();
             }else {
                 nextPageClickable = false;
-                List<WebElement> lis = issuesList.findElements(By.tagName("li"));
-                int size = lis.size();
+                List<WebElement> issuesPerPage = issuesList.findElements(By.tagName("li"));
+                int size = issuesPerPage.size();
                 issueCounter += size;
             }
         }
