@@ -52,6 +52,9 @@ public class BrowseIssues extends Feature {
     @FindBy(xpath = "//SPAN[@class='aui-icon aui-icon-small aui-iconfont-refresh-small'][text()='Refresh results']")
     WebElement refreshPageIcon;
 
+    @FindBy(id = "project-name-val")
+    WebElement projectNameValue;
+
 
     Login login;
 
@@ -87,6 +90,7 @@ public class BrowseIssues extends Feature {
         projectFilter.click();
         waitUntilElementClickable(projectFilterInputField);
         projectFilterInputField.sendKeys(projectName + Keys.ENTER + Keys.ESCAPE);
+        wait.until(ExpectedConditions.textToBePresentInElement(projectNameValue,projectName));
     }
 
 
@@ -102,10 +106,12 @@ public class BrowseIssues extends Feature {
     }
 
 
-    Map<String, String> getDetailesOfIssue(String projectName){
+    int getDetailsOfIssue(String projectName){
+        displayAllIssues();
         searchIssueByName(projectName);
         waitUntilElementClickable(detailsButton);
-        if (detailsButton.getAttribute("class").equals("module toggle-wrap collapsed")){
+        String collapsedButtonValue = "module toggle-wrap collapsed";
+        if (detailsButton.getAttribute("class").equals(collapsedButtonValue)){
             detailsButton.click();
         }
         waitUntilElementClickable(typeOfIssue);
@@ -115,7 +121,7 @@ public class BrowseIssues extends Feature {
             detailsText.put(detail.findElement(By.tagName("strong")).getText(), detail.findElement(By.tagName("span")).getText());
         }
         System.out.println("Details: \n" + detailsText);
-        return detailsText;
+        return detailsText.size();
     }
 
 

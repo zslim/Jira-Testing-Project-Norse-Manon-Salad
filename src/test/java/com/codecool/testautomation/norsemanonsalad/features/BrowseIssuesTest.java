@@ -17,6 +17,7 @@ public class BrowseIssuesTest {
     private static String[] testData = new String[3];
     //private static List<String[]> testData;
     private static final String TEST_DATA_MIN_ISSUES = "/browse_issue_min_num_of_issues.csv";
+    private static final String TEST_DATA_PROJECT_DETAILS = "/browse_issue_details_of_project.csv";
 
     @BeforeAll
     static void init(){
@@ -52,13 +53,11 @@ public class BrowseIssuesTest {
         assertTrue(minimalNumOfIssuesExist);
     }
 
-    @Test
-    void testIfAllIssueDetailsAppear(){
-        int numOfDetails = 5;
-        String project = "TOUCAN";
-        browseIssues.displayAllIssues();
-        int actualDetails = (browseIssues.getDetailesOfIssue(project)).size();
-        assertEquals(numOfDetails, actualDetails);
+    @ParameterizedTest
+    @CsvFileSource(resources = TEST_DATA_PROJECT_DETAILS, numLinesToSkip = 1)
+    void testIfAllIssueDetailsAppear(String projectName, int numOfDetails){
+        int actualNumDetails = (browseIssues.getDetailsOfIssue(projectName));
+        assertEquals(numOfDetails, actualNumDetails);
     }
 
     @Test
