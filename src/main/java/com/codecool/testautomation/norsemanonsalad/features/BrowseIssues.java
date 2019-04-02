@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,13 +25,13 @@ public class BrowseIssues extends Feature {
     @FindBy(id = "fieldpid")
     WebElement filteredId;
 
-    @FindBy(xpath = "//DIV[@data-id='project']")
+    @FindBy(xpath = "//div[@data-id='project']")
     WebElement projectFilter;
 
     @FindBy(id = "searcher-pid-input")
     WebElement projectFilterInputField;
 
-    @FindBy(xpath = "//*[@id=\"content\"]/div[1]/div[3]/div/div/div/div/div/div/div/div[2]/div[2]/div/div[1]/div/div[1]/span")
+    @FindBy(xpath = "//div[@class='showing']/span")
     WebElement numberOfIssues;
 
     @FindBy(id = "details-module")
@@ -45,25 +46,22 @@ public class BrowseIssues extends Feature {
     @FindBy(className = "issue-list")
     WebElement issuesList;
 
-    @FindBy(xpath = "//SPAN[@class='aui-icon aui-icon-small aui-iconfont-chevron-right'][contains(text(),'Next ')]")
+    @FindBy(css = "span.aui-iconfont-chevron-right")
     WebElement nextPageIcon;
 
-    @FindBy(xpath = "//SPAN[@class='aui-icon aui-icon-small aui-iconfont-refresh-small'][text()='Refresh results']")
+    @FindBy(xpath = "//a[@class='refresh-table']//span")
     WebElement refreshPageIcon;
 
     @FindBy(id = "project-name-val")
     WebElement projectNameValue;
 
 
-    Login login;
-
     BrowseIssues(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver,this);
-        login = new Login(driver);
+        PageFactory.initElements(driver, this);
     }
 
-    void displayAllIssues(){
+    void displayAllIssues() {
         waitUntilElementLoaded(headerIssuesField);
         headerIssuesField.click();
         waitUntilElementLoaded(searchForIssues);
@@ -72,11 +70,11 @@ public class BrowseIssues extends Feature {
     }
 
 
-    String validateIssuesDisplayed(){
+    String validateIssuesDisplayed() {
         return searchTitle.getText();
     }
 
-    int getNumOfIssues(){
+    int getNumOfIssues() {
         String text = numberOfIssues.getText();
         String[] split = text.split(" ");
         int max = Integer.parseInt(split[2]);
@@ -84,61 +82,62 @@ public class BrowseIssues extends Feature {
     }
 
 
-    void searchIssueByName(String projectName){
+    void searchIssueByName(String projectName) {
         waitUntilElementClickable(projectFilter);
         projectFilter.click();
         waitUntilElementClickable(projectFilterInputField);
         projectFilterInputField.sendKeys(projectName + Keys.ENTER + Keys.ESCAPE);
-        wait.until(ExpectedConditions.textToBePresentInElement(projectNameValue,projectName));
+        wait.until(ExpectedConditions.textToBePresentInElement(projectNameValue, projectName));
     }
 
 
-    boolean validateNumberOfIssues(String project, int minimal){
+    boolean validateNumberOfIssues(String project, int minimal) {
         displayAllIssues();
         searchIssueByName(project);
         wait.until(ExpectedConditions.textToBePresentInElement(filteredId, project));
         if (getNumOfIssues() <= minimal) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
 
 
-    int getDetailsOfIssue(String projectName){
+    String[] validateIssueDetail() {
+        List<WebElement> details = issueDetails.findElements(By.cssSelector("li.item strong"));
+        String[] detailTitles = new String[details.size()];
+        for (int i = 0; i < details.size(); i++) {
+            detailTitles[i] = details.get(i).getText();
+        }
+        return detailTitles;
+    }
+
+    void seeDetailsOfIssue(String projectName) {
         displayAllIssues();
         searchIssueByName(projectName);
         waitUntilElementClickable(detailsButton);
-        String collapsedButtonValue = "module toggle-wrap collapsed";
-        if (detailsButton.getAttribute("class").equals(collapsedButtonValue)){
+        String collapsedButtonClass = "module toggle-wrap collapsed";
+        if (detailsButton.getAttribute("class").equals(collapsedButtonClass)) {
             detailsButton.click();
         }
         waitUntilElementClickable(typeOfIssue);
-        List<WebElement> details = issueDetails.findElements(By.tagName("li"));
-        Map<String, String> detailsText = new HashMap<>();
-        for (WebElement detail : details) {
-            detailsText.put(detail.findElement(By.tagName("strong")).getText(), detail.findElement(By.tagName("span")).getText());
-        }
-        System.out.println("Details: \n" + detailsText);
-        return detailsText.size();
     }
 
 
-    int getNumOfIssuesByPagination(){
+    int getNumOfIssuesByPagination() {
         waitUntilElementLoaded(issuesList);
         int issueCounter = 0;
         boolean nextPageClickable = true;
-        while (nextPageClickable){
+        while (nextPageClickable) {
             waitUntilElementClickable(refreshPageIcon);
-            if (driver.findElements( By.xpath("//SPAN[@class='aui-icon aui-icon-small aui-iconfont-chevron-right'][contains(text(),'Next ')]")).size() != 0 ) {
+            if (driver.findElements(By.xpath("//SPAN[@class='aui-icon aui-icon-small aui-iconfont-chevron-right'][contains(text(),'Next ')]")).size() != 0) {
                 waitUntilElementLoaded(issuesList);
                 List<WebElement> issuesPerPage = issuesList.findElements(By.tagName("li"));
                 int size = issuesPerPage.size();
                 issueCounter += size;
-                waitUntilElementClickable(nextPageIcon);
                 waitUntilElementClickable(refreshPageIcon);
                 nextPageIcon.click();
-            }else {
+            } else {
                 nextPageClickable = false;
                 List<WebElement> issuesPerPage = issuesList.findElements(By.tagName("li"));
                 int size = issuesPerPage.size();

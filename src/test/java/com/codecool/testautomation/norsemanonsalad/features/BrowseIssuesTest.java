@@ -14,13 +14,11 @@ public class BrowseIssuesTest {
 
     Login login;
     BrowseIssues browseIssues;
-    private static String[] testData = new String[3];
     private static final String TEST_DATA_MIN_ISSUES = "/browse_issue_min_num_of_issues.csv";
     private static final String TEST_DATA_PROJECT_DETAILS = "/browse_issue_details_of_project.csv";
 
     @BeforeAll
     static void init(){
-        testData = new String[]{"TOUCAN", "JETI", "COALA"};
         Utils.setDriverPath();
     }
 
@@ -53,9 +51,11 @@ public class BrowseIssuesTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = TEST_DATA_PROJECT_DETAILS, numLinesToSkip = 1)
-    void testIfAllIssueDetailsAppear(String projectName, int numOfDetails){
-        int actualNumDetails = (browseIssues.getDetailsOfIssue(projectName));
-        assertEquals(numOfDetails, actualNumDetails);
+    void testIfAllIssueDetailsAppear(String projectName){
+        String[] expectedDetails = {"Type:", "Status:", "Priority:", "Resolution:", "Labels:"};
+        browseIssues.seeDetailsOfIssue(projectName);
+        String[] actualDetails = browseIssues.validateIssueDetail();
+        assertArrayEquals(expectedDetails, actualDetails);
     }
 
     @Test
