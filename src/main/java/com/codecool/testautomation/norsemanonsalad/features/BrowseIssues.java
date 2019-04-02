@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -47,7 +46,7 @@ public class BrowseIssues extends Feature {
     WebElement issuesList;
 
     @FindBy(css = "span.aui-iconfont-chevron-right")
-    WebElement nextPageIcon;
+    WebElement nextPageButton;
 
     @FindBy(xpath = "//a[@class='refresh-table']//span")
     WebElement refreshPageIcon;
@@ -129,22 +128,17 @@ public class BrowseIssues extends Feature {
         int issueCounter = 0;
         boolean nextPageClickable = true;
         while (nextPageClickable) {
-            waitUntilElementClickable(refreshPageIcon);
-            if (driver.findElements(By.xpath("//SPAN[@class='aui-icon aui-icon-small aui-iconfont-chevron-right'][contains(text(),'Next ')]")).size() != 0) {
-                waitUntilElementLoaded(issuesList);
-                List<WebElement> issuesPerPage = issuesList.findElements(By.tagName("li"));
-                int size = issuesPerPage.size();
-                issueCounter += size;
+            List<WebElement> issuesPerPage = issuesList.findElements(By.tagName("li"));
+            int size = issuesPerPage.size();
+            issueCounter += size;
+
+            if (isElementPresent(nextPageButton)) {
                 waitUntilElementClickable(refreshPageIcon);
-                nextPageIcon.click();
+                nextPageButton.click();
             } else {
                 nextPageClickable = false;
-                List<WebElement> issuesPerPage = issuesList.findElements(By.tagName("li"));
-                int size = issuesPerPage.size();
-                issueCounter += size;
             }
         }
-        System.out.println("Issues " + issueCounter);
         return issueCounter;
     }
 

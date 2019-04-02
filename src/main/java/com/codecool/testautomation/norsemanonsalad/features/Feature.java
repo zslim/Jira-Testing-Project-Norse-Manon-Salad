@@ -70,7 +70,7 @@ public abstract class Feature {
 
     protected void waitUntilElementClickable(WebElement webElement) {
         int attempts = 0;
-        while (attempts < 2) {
+        while (attempts < MAX_ATTEMPT) {
             try {
                 wait.until(ExpectedConditions.elementToBeClickable(webElement));
                 break;
