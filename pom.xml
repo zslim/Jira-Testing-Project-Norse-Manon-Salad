@@ -36,7 +36,7 @@
                         <BROWSER>${BROWSER}</BROWSER>
                         <DRIVER_PROPERTY>${DRIVER_PROPERTY}</DRIVER_PROPERTY>
                         <DRIVER_PATH>${DRIVER_PATH}</DRIVER_PATH>
-                        <PROFILER_PICTURE_TEXT>${PROFILER_PICTURE_TEXT}</PROFILER_PICTURE_TEXT>
+                        <PROFILE_PICTURE_TEXT>${PROFILE_PICTURE_TEXT}</PROFILE_PICTURE_TEXT>
                         <TIMEOUT_FOR_LOADING>${TIMEOUT_FOR_LOADING}</TIMEOUT_FOR_LOADING>
                         <MAX_ATTEMPT>${MAX_ATTEMPT}</MAX_ATTEMPT>
                     </environmentVariables>
