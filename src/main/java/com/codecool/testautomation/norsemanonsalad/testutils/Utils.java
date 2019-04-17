@@ -2,7 +2,7 @@ package com.codecool.testautomation.norsemanonsalad.testutils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -25,7 +25,14 @@ public class Utils {
         String preferredBrowser = getEnvironmentVar("BROWSER");
         WebDriver driver;
         if (preferredBrowser.equals("Chrome")) {
-            driver = new ChromeDriver();
+            ChromeOptions options = new ChromeOptions();
+            URL nodeUrl = null;
+            try {
+                nodeUrl = new URL(NODE_URL);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            driver = new RemoteWebDriver(nodeUrl, options);
         } else if (preferredBrowser.equals("Firefox")) {
             FirefoxOptions options = new FirefoxOptions();
             URL nodeUrl = null;
