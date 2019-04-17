@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Utils {
 
     public static final String BASE_URL = "https://jira.codecool.codecanvas.hu/secure/Dashboard.jspa";
-    public static final String NODE_URL = System.getenv("NODE_URL");
+    public static final String NODE_URL = "http://selenium:CCPass123@seleniumhub.codecool.codecanvas.hu:4444/wd/hub";
 
     public static void setDriverPath() {
         String driverProperty = System.getenv("DRIVER_PROPERTY");
