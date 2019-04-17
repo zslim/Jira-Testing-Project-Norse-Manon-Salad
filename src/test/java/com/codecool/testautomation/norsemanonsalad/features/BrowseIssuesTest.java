@@ -5,9 +5,10 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.WebDriver;
-
+import java.net.MalformedURLException;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 
 public class BrowseIssuesTest {
@@ -23,7 +24,7 @@ public class BrowseIssuesTest {
     }
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws MalformedURLException {
         WebDriver driver = Utils.createDriver();
         login = new Login(driver);
         browseIssues = new BrowseIssues(driver);
@@ -32,7 +33,7 @@ public class BrowseIssuesTest {
 
     @AfterEach
     void tearDown() {
-        login.closeDriver();
+        login.driver.quit();
     }
 
     @Test

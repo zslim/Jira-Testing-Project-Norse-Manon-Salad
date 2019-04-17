@@ -2,8 +2,10 @@ package com.codecool.testautomation.norsemanonsalad.testutils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import java.util.Objects;
 
@@ -17,13 +19,18 @@ public class Utils {
         System.setProperty(driverProperty, driverPath);
     }
 
-    public static WebDriver createDriver(){
+    public static WebDriver createDriver() throws MalformedURLException{
+        DesiredCapabilities desiredCapabilities;
         String preferredBrowser = getEnvironmentVar("BROWSER");
         WebDriver driver;
         if (preferredBrowser.equals("Chrome")) {
-            driver = new ChromeDriver();
+            desiredCapabilities = DesiredCapabilities.chrome();
+            desiredCapabilities.setBrowserName("chrome");
+            driver = new RemoteWebDriver(new URL("http://selenium:CCPass123@selenium.codecool.codecanvas.hu:4444/wd/hub"), desiredCapabilities);
         } else if (preferredBrowser.equals("Firefox")) {
-            driver = new FirefoxDriver();
+            desiredCapabilities = DesiredCapabilities.firefox();
+            desiredCapabilities.setBrowserName("firefox");
+            driver = new RemoteWebDriver(new URL("http://selenium:CCPass123@selenium.codecool.codecanvas.hu:4444/wd/hub"), desiredCapabilities);
         } else {
             throw new NotSupportedBrowserException("Browser specified in env var not supported, please choose Chrome or Firefox");
         }

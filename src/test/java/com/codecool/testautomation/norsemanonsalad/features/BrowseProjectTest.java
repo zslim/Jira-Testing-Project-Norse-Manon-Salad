@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.net.MalformedURLException;
 
 class BrowseProjectTest {
 
@@ -21,7 +22,7 @@ class BrowseProjectTest {
     }
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws MalformedURLException {
         login = new Login(Utils.createDriver());
         browseProject = new BrowseProject(login.getDriver());
         login.loginSuccessful();
@@ -29,7 +30,7 @@ class BrowseProjectTest {
 
     @AfterEach
     void tearDown() {
-        browseProject.closeDriver();
+        browseProject.driver.quit();
     }
 
     @Test
