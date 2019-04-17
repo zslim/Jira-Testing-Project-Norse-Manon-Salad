@@ -12,12 +12,14 @@ import java.util.Objects;
 public class Utils {
 
     public static final String BASE_URL = "https://jira.codecool.codecanvas.hu/secure/Dashboard.jspa";
-    public static final String NODE_URL = "http://selenium:CCPass123@seleniumhub.codecool.codecanvas.hu:4444/wd/hub";
+    public static final String NODE_URL = System.getenv("NODE_URL");
 
     public static void setDriverPath() {
-        String driverProperty = getEnvironmentVar("DRIVER_PROPERTY");
-        String driverPath = getEnvironmentVar("DRIVER_PATH");
-        System.setProperty(driverProperty, driverPath);
+        String driverProperty = System.getenv("DRIVER_PROPERTY");
+        String driverPath = System.getenv("DRIVER_PATH");
+        if (!StringUtils.isEmpty(driverPath) & !StringUtils.isEmpty(driverProperty)) {
+            System.setProperty(driverProperty, driverPath);
+        }
     }
 
     public static WebDriver createDriver() {
