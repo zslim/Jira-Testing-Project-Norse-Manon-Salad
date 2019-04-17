@@ -24,7 +24,7 @@ public abstract class Feature {
     }
 
     public void closeDriver() {
-        driver.close();
+        driver.quit();
     }
 
     protected void waitUntilElementLoaded(WebElement webElement) {
