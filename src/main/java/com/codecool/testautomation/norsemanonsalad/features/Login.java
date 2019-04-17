@@ -15,8 +15,8 @@ public class Login extends Feature {
     @FindBy(id = "login-form-password")
     WebElement passwordField;
 
-    @FindBy(xpath = "//*[@id=\"header-details-user-fullname\"]//img")
-    WebElement userProfilePicture;
+    @FindBy(xpath = "//*[@id='header-details-user-fullname']")
+    WebElement userProfileIcon;
 
     @FindBy(id = "login")
     WebElement loginSubmitButton;
@@ -40,13 +40,13 @@ public class Login extends Feature {
 
     void loginSuccessful() {
         login(USER_NAME, PASSWORD);
-        waitUntilElementLoaded(userProfilePicture);
+        waitUntilElementLoaded(userProfileIcon);
     }
 
     String validateSuccessfulLogin() {
-        waitUntilElementLoaded(userProfilePicture);
-        String profilePictureAltString = userProfilePicture.getAttribute("alt");
-        return profilePictureAltString;
+        waitUntilElementLoaded(userProfileIcon);
+        String profileIconUsername = userProfileIcon.getAttribute("data-username");
+        return profileIconUsername;
     }
 
     boolean validateErrorMessage(String errorId) {

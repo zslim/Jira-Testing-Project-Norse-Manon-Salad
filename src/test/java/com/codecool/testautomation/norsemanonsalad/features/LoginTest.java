@@ -41,7 +41,7 @@ class LoginTest {
 
     @Test
     void loginSuccessful() {
-        String expectedResult = Utils.getEnvironmentVar("PROFILE_PICTURE_TEXT");
+        String expectedResult = Utils.getEnvironmentVar("USER_NAME");
         login.login(login.USER_NAME, login.PASSWORD);
         assertEquals(expectedResult, login.validateSuccessfulLogin());
     }
