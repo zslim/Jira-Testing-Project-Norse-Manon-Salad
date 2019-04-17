@@ -2,16 +2,17 @@ package com.codecool.testautomation.norsemanonsalad.testutils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.Objects;
 
 public class Utils {
 
     public static final String BASE_URL = "https://jira.codecool.codecanvas.hu/secure/Dashboard.jspa";
+    public static final String NODE_URL = "http://selenium:CCPass123@seleniumhub.codecool.codecanvas.hu:4444/wd/hub";
 
     public static void setDriverPath() {
         String driverProperty = getEnvironmentVar("DRIVER_PROPERTY");
@@ -19,18 +20,27 @@ public class Utils {
         System.setProperty(driverProperty, driverPath);
     }
 
-    public static WebDriver createDriver() throws MalformedURLException{
-        DesiredCapabilities desiredCapabilities;
+    public static WebDriver createDriver() {
         String preferredBrowser = getEnvironmentVar("BROWSER");
         WebDriver driver;
         if (preferredBrowser.equals("Chrome")) {
-            desiredCapabilities = DesiredCapabilities.chrome();
-            desiredCapabilities.setBrowserName("chrome");
-            driver = new RemoteWebDriver(new URL("http://selenium:CCPass123@selenium.codecool.codecanvas.hu:4444/wd/hub"), desiredCapabilities);
+            ChromeOptions options = new ChromeOptions();
+            URL nodeUrl = null;
+            try {
+                nodeUrl = new URL(NODE_URL);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            driver = new RemoteWebDriver(nodeUrl, options);
         } else if (preferredBrowser.equals("Firefox")) {
-            desiredCapabilities = DesiredCapabilities.firefox();
-            desiredCapabilities.setBrowserName("firefox");
-            driver = new RemoteWebDriver(new URL("http://selenium:CCPass123@selenium.codecool.codecanvas.hu:4444/wd/hub"), desiredCapabilities);
+            FirefoxOptions options = new FirefoxOptions();
+            URL nodeUrl = null;
+            try {
+                nodeUrl = new URL(NODE_URL);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            driver = new RemoteWebDriver(nodeUrl, options);
         } else {
             throw new NotSupportedBrowserException("Browser specified in env var not supported, please choose Chrome or Firefox");
         }

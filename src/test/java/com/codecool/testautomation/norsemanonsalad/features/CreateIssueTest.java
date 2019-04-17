@@ -6,7 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.WebDriver;
 import java.util.List;
-import java.net.MalformedURLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +24,7 @@ class CreateIssueTest {
     }
 
     @BeforeEach
-    void setUp() throws MalformedURLException {
+    void setUp(){
         driver = Utils.createDriver();
         login = new Login(driver);
         createIssue = new CreateIssue(driver);
@@ -35,7 +34,7 @@ class CreateIssueTest {
 
     @AfterEach
     void tearDown() {
-        createIssue.driver.quit();
+        login.closeDriver();
     }
 
     @ParameterizedTest
