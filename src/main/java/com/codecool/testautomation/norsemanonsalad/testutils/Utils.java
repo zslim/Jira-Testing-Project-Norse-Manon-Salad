@@ -61,7 +61,7 @@ public class Utils {
     }
 
     public static String nullToEmptyString(String string) {
-        return Objects.requireNonNullElse(string, "");
+        return string == null ? "" : string;
     }
 
 }
